@@ -25,10 +25,10 @@ factory/issues/001-….md
 | Path | What it is | Course step |
 |---|---|---|
 | [`factory/README.md`](factory/README.md) | Task class, issue format, what each stage may change, when it stops | 1. Choose a recurring task |
-| [`factory/issues/`](factory/issues/) | Issue 001 (a new rule) and 002 (a rule that already exists) | 1 |
+| [`factory/issues/`](factory/issues/) | 001 a new rule; 002 a rule that already exists; 003 behaviour that exists by accident | 1 |
 | [`factory/prompts/`](factory/prompts/) | One versioned prompt per stage | 2. Run an agent headless |
 | [`factory/run.sh`](factory/run.sh) | The pipeline: stages, gates, state file, budgets, stop report, draft PR | 2, 3. Assemble the pipeline |
-| [`factory/example-runs/`](factory/example-runs/) | Two real runs: 001 to a PR, 002 stopped at the RED gate | 3, 4. Prove a check stops it |
+| [`factory/example-runs/`](factory/example-runs/) | Three real runs: 001 to a PR, 002 and 003 stopped at the RED gate | 3, 4. Prove a check stops it |
 | [`docs/decisions.md`](docs/decisions.md) | What the factory may do unattended, and what always needs a person | 4 |
 | [`app/`](app/) | The task-list app the factory changes | — |
 | [`tests/`](tests/) | Every gate tested against a fake agent, for free | — |
