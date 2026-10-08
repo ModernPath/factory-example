@@ -171,7 +171,7 @@ Run directory: $RUN"
         --max-budget-usd "$remaining" \
         --setting-sources project \
         --strict-mcp-config \
-        > "$out" 2> "$RUN/$stage.err"
+        < /dev/null > "$out" 2> "$RUN/$stage.err"
       rc=$?
       ;;
     codex)
@@ -179,7 +179,7 @@ Run directory: $RUN"
       local sandbox=workspace-write
       [ "$access" = read ] && sandbox=read-only
       with_timeout codex exec --sandbox "$sandbox" --ephemeral -o "$RUN/$stage.txt" "$prompt" \
-        > "$RUN/$stage.jsonl" 2> "$RUN/$stage.err"
+        < /dev/null > "$RUN/$stage.jsonl" 2> "$RUN/$stage.err"
       rc=$?
       python3 -c 'import json,sys,pathlib
 p = pathlib.Path(sys.argv[1]); rc = int(sys.argv[2])
@@ -188,7 +188,7 @@ json.dump({"subtype": "success" if rc == 0 else "error", "is_error": rc != 0, "r
            "num_turns": None, "total_cost_usd": None}, open(sys.argv[3], "w"))' "$RUN/$stage.txt" "$rc" "$out"
       ;;
     fake)
-      FACTORY_STAGE=$stage FACTORY_RUN=$RUN with_timeout python3 "$FACTORY_FAKE_AGENT" "$prompt" > "$out" 2> "$RUN/$stage.err"
+      FACTORY_STAGE=$stage FACTORY_RUN=$RUN with_timeout python3 "$FACTORY_FAKE_AGENT" "$prompt" < /dev/null > "$out" 2> "$RUN/$stage.err"
       rc=$?
       ;;
     *)
@@ -200,13 +200,16 @@ json.dump({"subtype": "success" if rc == 0 else "error", "is_error": rc != 0, "r
   if [ "$rc" -eq 124 ] || [ "$rc" -eq 142 ]; then
     stop "$stage" "agent timed out after ${STAGE_TIMEOUT}s" "Look at $out and $RUN/$stage.err; raise FACTORY_STAGE_TIMEOUT or simplify the issue."
   fi
-  local subtype turns cost is_error
+  local subtype turns cost is_error model
   subtype=$(json_field "$out" subtype)
+  model=$(python3 -c 'import json,sys
+try: print(",".join(json.load(open(sys.argv[1])).get("modelUsage", {})) or "n/a")
+except Exception: print("n/a")' "$out")
   turns=$(json_field "$out" num_turns)
   cost=$(json_field "$out" total_cost_usd)
   is_error=$(json_field "$out" is_error)
   [ -n "$cost" ] && echo "$cost" >> "$RUN/costs"
-  log "stage=$stage exit=$rc subtype=${subtype:-?} turns=${turns:-n/a} cost_usd=${cost:-n/a} seconds=$secs"
+  log "stage=$stage exit=$rc subtype=${subtype:-?} model=$model turns=${turns:-n/a} cost_usd=${cost:-n/a} seconds=$secs"
   if [ "$rc" -ne 0 ] || [ "$is_error" = "True" ] || [ "$subtype" != "success" ]; then
     stop "$stage" "agent ended with ${subtype:-exit $rc}" "Read $out and $RUN/$stage.err, then rerun to retry this stage."
   fi
