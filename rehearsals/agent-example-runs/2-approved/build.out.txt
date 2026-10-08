@@ -1,0 +1,3 @@
+Tests weren't modified (timestamps unchanged from 11:34–11:37), no stale `example_*` files remain, no data files, no `.env`. 
+
+**Built a reading-list agent — `Item` core with URL dedup and `unread/read` status, `ItemStore` persisting `items.json`, service + Gemini-callable tools (`add_item`, `search_items`, `mark_read`, `delete_item`), four tool CLIs, a `reading_summarizer` subagent, offline chat router, Flask UI on :5013, FastAPI on :8013 — all 101 tests pass.**

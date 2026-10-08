@@ -1,0 +1,25 @@
+{
+  "name": "reading-list-agent",
+  "purpose": "Keep a list of articles and books to read, find them by topic, and mark them read, so the user can answer 'what should I read next about X?' from their own list.",
+  "record": {
+    "name": "item",
+    "fields": [
+      {"name": "id", "type": "string", "rule": "item_ followed by 10 hex characters, assigned by the store"},
+      {"name": "title", "type": "string", "rule": "required, one line, at most 200 characters"},
+      {"name": "url", "type": "string", "rule": "optional; when given it must start with http:// or https://"},
+      {"name": "tags", "type": "list of strings", "rule": "lowercase, from #hashtags or a comma list"},
+      {"name": "status", "type": "string", "rule": "'unread' when added; 'read' after mark_read"},
+      {"name": "added_at", "type": "string", "rule": "ISO 8601 timestamp set by the store"}
+    ]
+  },
+  "actions": [
+    {"name": "add_item", "does": "Save an article or book to read. A URL already on the list is not added twice; the existing item is returned.", "changes_data": true},
+    {"name": "search_items", "does": "Find items by words in the title or by a tag, optionally only unread ones.", "changes_data": false},
+    {"name": "mark_read", "does": "Mark one item read by its exact id.", "changes_data": true},
+    {"name": "delete_item", "does": "Delete one item by its exact id.", "changes_data": true}
+  ],
+  "offline_commands": ["add Attention is all you need https://arxiv.org/abs/1706.03762 #ml", "find ml", "unread", "read <item id>", "delete <item id>", "summarize"],
+  "memory": {"store": "one JSON file in the agent's data directory", "retention": "until the user deletes an item; read items are kept"},
+  "surfaces": ["cli", "api", "ui"],
+  "subagent": {"name": "reading_summarizer", "job": "Summarize what is unread for a tag in a separate process."}
+}

@@ -6,5 +6,7 @@ __pycache__/
 .env.local
 # Factory runs are local working state; finished examples are copied to factory/example-runs/.
 factory/runs/
+# Agent factory runs (rehearsals/05) are local working state too.
+rehearsals/agent-runs/
 # Rehearsal session ids
 .factory-session-id-*

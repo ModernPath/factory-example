@@ -41,6 +41,7 @@ class BackendRunResult:
     text: str
     stop_reason: str
     session_id: str | None
+    cost_usd: float | None = None  # reported by claude only
 
 
 async def _run_claude(options: BackendRunOptions) -> BackendRunResult:
@@ -62,6 +63,7 @@ async def _run_claude(options: BackendRunOptions) -> BackendRunResult:
                 permission_mode=options.permission_mode,
                 max_turns=options.max_turns,
                 setting_sources=['project'],
+                cwd=str(options.cwd),  # without it the agent works wherever the script was started
                 resume=options.resume_session_id,
                 model=options.model,
             ),
@@ -74,12 +76,14 @@ async def _run_claude(options: BackendRunOptions) -> BackendRunResult:
             if isinstance(message, ResultMessage):
                 if message.session_id:
                     last_session_id = str(message.session_id)
+                cost = getattr(message, 'total_cost_usd', None)
                 if message.subtype == 'success':
                     final_result = BackendRunResult(
                         ok=True,
                         text=message.result or '',
                         stop_reason=message.subtype,
                         session_id=last_session_id,
+                        cost_usd=cost,
                     )
                 else:
                     final_result = BackendRunResult(
@@ -87,6 +91,7 @@ async def _run_claude(options: BackendRunOptions) -> BackendRunResult:
                         text='',
                         stop_reason=message.subtype,
                         session_id=last_session_id,
+                        cost_usd=cost,
                     )
     except Exception as e:
         logger.error('Claude backend error: %s', e)
@@ -338,7 +343,16 @@ async def run_backend(options: BackendRunOptions) -> BackendRunResult:
     print(prompt_preview)
     print('=== END PROMPT ===\n')
     if options.backend == 'claude':
-        return await _run_claude(options)
+        # The SDK has no timeout of its own, so the script enforces one.
+        try:
+            return await asyncio.wait_for(_run_claude(options), timeout=options.timeout_seconds)
+        except asyncio.TimeoutError:
+            return BackendRunResult(
+                ok=False,
+                text='',
+                stop_reason=f'claude_error: timeout after {options.timeout_seconds}s',
+                session_id=options.resume_session_id,
+            )
     if options.backend == 'codex':
         return await _run_codex(options)
     return await _run_opencode(options)

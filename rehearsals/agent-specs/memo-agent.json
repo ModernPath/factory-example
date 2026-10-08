@@ -1,0 +1,22 @@
+{
+  "name": "memo-agent",
+  "purpose": "Keep short memos and find them again. The same shape as the notes reference, renamed; the factory's own tests build it with a fake agent.",
+  "record": {
+    "name": "memo",
+    "fields": [
+      {"name": "id", "type": "string", "rule": "memo_ followed by 10 hex characters, assigned by the store"},
+      {"name": "title", "type": "string", "rule": "required, one line"},
+      {"name": "body", "type": "string", "rule": "optional"},
+      {"name": "tags", "type": "list of strings", "rule": "lowercase, from #hashtags or a comma list"}
+    ]
+  },
+  "actions": [
+    {"name": "add_memo", "does": "Save a memo.", "changes_data": true},
+    {"name": "search_memos", "does": "Find memos by words or a tag.", "changes_data": false},
+    {"name": "delete_memo", "does": "Delete one memo by its exact id.", "changes_data": true}
+  ],
+  "offline_commands": ["add Call Bob #work", "find bob", "list memos", "delete <memo id>", "summarize"],
+  "memory": {"store": "one JSON file in the agent's data directory", "retention": "until the user deletes a memo"},
+  "surfaces": ["cli", "api", "ui"],
+  "subagent": {"name": "memo_summarizer", "job": "Summarize a set of memos in a separate process."}
+}

@@ -1,0 +1,61 @@
+- example_agent.py:3: reference name left over: Example Agent CLI — a minimal, clean template for building agents in this folder
+- example_agent.py:6: reference name left over: python example_agent.py --chat                      # Interactive mode
+- example_agent.py:7: reference name left over: python example_agent.py "what notes do I have?"     # Single query
+- example_agent.py:8: reference name left over: python example_agent.py --offline "add Call Bob #work"
+- example_agent.py:9: reference name left over: python example_agent.py --help
+- example_agent.py:22: reference name left over: from example_chat import chat_reply  # noqa: E402
+- example_agent.py:23: reference name left over: from memory.memory import NoteStore  # noqa: E402
+- example_agent.py:28: reference name left over: def chat_loop(store: NoteStore, *, offline: bool) -> None:
+- example_agent.py:30: reference name left over: print(f"Example Agent ({mode}). Type 'exit' to quit.\n")
+- example_agent.py:52: reference name left over: parser = argparse.ArgumentParser(description="Example Agent — manage notes with 
+- example_agent.py:59: reference name left over: store = NoteStore()
+- example_chat.py:1: reference name left over: """Conversational layer for Example Agent, shared by CLI, API, and UI.
+- example_chat.py:19: reference name left over: import example_service as service
+- example_chat.py:21: reference name left over: from example_core import extract_hashtags
+- example_chat.py:22: reference name left over: from memory.memory import NoteStore
+- example_chat.py:30: reference name left over: You are Example Agent, a concise assistant that manages the user's notes.
+- example_chat.py:64: reference name left over: store: NoteStore,
+- example_chat.py:100: reference name left over: def build_tools(store: NoteStore, tools_used: List[str]) -> List[Callable[..., D
+- example_chat.py:160: reference name left over: def build_system_prompt(store: NoteStore) -> str:
+- example_chat.py:177: reference name left over: def _llm_reply(store: NoteStore, text: str, history: History, tools_used: List[s
+- example_chat.py:210: reference name left over: def offline_reply(store: NoteStore, text: str, tools_used: Optional[List[str]] =
+- example_chat.py:224: reference name left over: def _add_note(store: NoteStore, match: re.Match) -> str:
+- example_chat.py:230: reference name left over: def _search_notes(store: NoteStore, match: re.Match) -> str:
+- example_chat.py:237: reference name left over: def _list_notes(store: NoteStore, match: re.Match) -> str:
+- example_chat.py:244: reference name left over: def _delete_note(store: NoteStore, match: re.Match) -> str:
+- example_chat.py:249: reference name left over: def _summarize_notes(store: NoteStore, match: re.Match) -> str:
+- example_core.py:1: reference name left over: """Pure domain logic for Example Agent: no file I/O, no network, no LLM.
+- example_service.py:3: reference name left over: Each function takes a NoteStore and returns plain dicts, so callers can
+- example_service.py:16: reference name left over: from example_core import Note, search_notes, tag_counts
+- example_service.py:17: reference name left over: from memory.memory import DATA_DIR_ENV, NoteStore
+- example_service.py:28: reference name left over: store: NoteStore,
+- example_service.py:36: reference name left over: def get_note(store: NoteStore, note_id: str) -> Dict[str, Any]:
+- example_service.py:40: reference name left over: def delete_note(store: NoteStore, note_id: str) -> Dict[str, Any]:
+- example_service.py:45: reference name left over: store: NoteStore,
+- example_service.py:54: reference name left over: def overview(store: NoteStore, *, recent: int = 5) -> Dict[str, Any]:
+- example_service.py:65: reference name left over: store: NoteStore,
+- example_service.py:70: reference name left over: """Delegate summarization to the note_summarizer subagent."""
+- example_service.py:74: reference name left over: return run_subagent("note_summarizer", args, store=store)
+- example_service.py:77: reference name left over: def run_subagent(name: str, args: List[str], *, store: NoteStore) -> Dict[str, A
+- skills/note-summary.md:3: reference name left over: description: Summarize all notes or one tag by delegating to the note_summarizer
+- skills/note-summary.md:4: reference name left over: tools: [note_summarizer]
+- skills/note-summary.md:14: reference name left over: - `subagents/note_summarizer.py [--tag TAG] [--offline]` — runs as a separate pr
+- skills/note-summary.md:19: reference name left over: python subagents/note_summarizer.py --tag work
+- subagents/note_summarizer.py:6: reference name left over: (see example_service.run_subagent) and reads the JSON envelope from stdout.
+- subagents/note_summarizer.py:10: reference name left over: python subagents/note_summarizer.py
+- subagents/note_summarizer.py:11: reference name left over: python subagents/note_summarizer.py --tag work
+- subagents/note_summarizer.py:12: reference name left over: python subagents/note_summarizer.py --offline
+- subagents/note_summarizer.py:27: reference name left over: from example_core import Note, search_notes, summarize_offline  # noqa: E402
+- subagents/note_summarizer.py:28: reference name left over: from memory.memory import NoteStore  # noqa: E402
+- subagents/note_summarizer.py:30: reference name left over: SUBAGENT_NAME = "note_summarizer"
+- subagents/note_summarizer.py:39: reference name left over: def summarize(store: NoteStore, *, tag: Optional[str], offline: bool) -> Dict[st
+- subagents/note_summarizer.py:59: reference name left over: lambda: summarize(NoteStore(), tag=args.tag, offline=args.offline),
+- tools/add_note.py:17: reference name left over: from example_service import add_note  # noqa: E402
+- tools/add_note.py:18: reference name left over: from memory.memory import NoteStore  # noqa: E402
+- tools/add_note.py:28: reference name left over: run_and_print(lambda: add_note(NoteStore(), args.title, args.body, args.tags))
+- tools/delete_note.py:17: reference name left over: from example_service import delete_note  # noqa: E402
+- tools/delete_note.py:18: reference name left over: from memory.memory import NoteStore  # noqa: E402
+- tools/delete_note.py:26: reference name left over: run_and_print(lambda: delete_note(NoteStore(), args.id))
+- tools/search_notes.py:17: reference name left over: from example_service import find_notes  # noqa: E402
+- tools/search_notes.py:18: reference name left over: from memory.memory import NoteStore  # noqa: E402
+- tools/search_notes.py:28: reference name left over: run_and_print(lambda: find_notes(NoteStore(), args.query, tag=args.tag, limit=ar

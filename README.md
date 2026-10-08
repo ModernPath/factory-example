@@ -33,7 +33,7 @@ factory/issues/001-….md
 | [`app/`](app/) | The task-list app the factory changes | — |
 | [`tests/`](tests/) | Every gate tested against a fake agent, for free | — |
 | [`scripts/prove_gates.py`](scripts/prove_gates.py) | Removes each gate in turn and confirms a test goes red | — |
-| [`rehearsals/`](rehearsals/) | Four warm-up scripts: minimal factory, roles, resume, spec loop | Slides m09-01…05 |
+| [`rehearsals/`](rehearsals/) | Warm-up scripts (minimal factory, roles, resume, spec loop) and an agent factory that builds agents in agent-example's format | Slides m09-01…05 |
 
 ## Run the factory
 
@@ -72,6 +72,11 @@ as a patch in the run folder.
 python3 -m pytest -q tests          # each gate fires against a misbehaving fake agent
 python3 scripts/prove_gates.py      # each gate removed in turn turns a test red
 ```
+
+The same holds for the agent factory in `rehearsals/05_agent_factory.py`:
+`tests/test_agent_factory.py` runs its gates against `tests/fake_agent_builder.py`
+(it needs an agent-example checkout next to this one), and
+`python3 scripts/prove_gates.py agent` removes them one at a time.
 
 The fake agent (`tests/fake_agent.py`) prints the same JSON as `claude -p`.
 Each test asks one stage to misbehave (no spec, two tests, an implementer that

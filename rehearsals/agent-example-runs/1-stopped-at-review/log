@@ -1,0 +1,14 @@
+10:51:48 agent factory: backend=claude model=default kit=../agent-example
+10:51:48 spec: contract for reading-list-agent with 4 actions
+10:51:48 copy: example-agent -> ../agent-example/reading-list-agent (without .env files, memory data, caches or evals)
+10:59:51 tests: agent finished in 483s, $3.33
+10:59:51 tests: 9 test files, every action named, offline and temp data forced
+10:59:51 RED gate: the suite fails before the build (  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET)))
+11:16:30 build: agent finished in 999s, $8.49
+11:16:31 build attempt 1: 61 problem(s), sent back; first: example_agent.py:3: reference name left over: Example Agent CLI — a minimal, clean template for building agents in this folder
+11:23:01 build: agent finished in 391s, $5.84
+11:23:04 GREEN gate: 96 passed in 2.03s
+11:23:05 smoke: CLI, tools, API and UI start and answer
+11:27:10 review: agent finished in 245s, cost not reported
+11:27:10 STOP at review: the agent did not finish: claude_error: Command failed with exit code 1 (exit code: 1)
+Error output: Check stderr output for details

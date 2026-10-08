@@ -1,0 +1,19 @@
+11:32:25 agent factory: backend=claude model=default kit=../agent-example
+11:32:25 spec: contract for reading-list-agent with 4 actions
+11:32:25 copy: example-agent -> ../agent-example/reading-list-agent (without .env files, memory data, caches or evals)
+11:40:04 tests: agent finished in 458s, $2.89
+11:40:04 tests: 9 test files, every action named, offline and temp data forced
+11:40:04 RED gate: the suite fails before the build (E   ImportError: cannot import name 'ItemStore' from 'memory.memory' (../agent-example/reading-list-agent/memory/memory.py))
+11:55:41 build: agent finished in 937s, $6.71
+11:55:44 GREEN gate: 101 passed in 2.65s
+11:55:45 smoke: CLI, tools, API and UI start and answer
+12:00:41 review: agent finished in 296s, $1.82
+12:00:41 STOP at review: the review returned no valid verdict
+12:01:02 agent factory: backend=claude model=default kit=../agent-example
+12:01:02 skip copy
+12:01:02 skip tests
+12:01:02 skip red
+12:01:02 skip build attempt 1: it passed its gates, resuming at review
+12:05:25 review: agent finished in 264s, $1.98
+12:05:25 review: approve on attempt 1
+12:05:25 handoff: rehearsals/agent-runs/reading-list-agent/handoff.md
