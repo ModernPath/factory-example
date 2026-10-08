@@ -1,0 +1,4 @@
+2026-10-08T05:56:49Z start run=002-blank-title-rejected issue=factory/issues/002-blank-title-rejected.md branch=factory/002-blank-title-rejected backend=claude
+2026-10-08T05:57:00Z stage=spec exit=0 subtype=success model=claude-sonnet-5-5 turns=5 cost_usd=0.1153466 seconds=11
+2026-10-08T05:57:13Z stage=test exit=0 subtype=success model=claude-sonnet-5-5 turns=6 cost_usd=0.11146339999999999 seconds=12
+2026-10-08T05:57:13Z STOP red-gate: the new test test_sr_1_1_blank_title_rejected passed before implementation

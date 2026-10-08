@@ -1,0 +1,14 @@
+...F.                                                                    [100%]
+=================================== FAILURES ===================================
+___________________ test_sr_1_3_title_at_most_80_characters ____________________
+
+    def test_sr_1_3_title_at_most_80_characters():
+        message = "Title must be at most 80 characters."
+        with pytest.raises(ValidationError) as too_long:
+>           create_task("x" * 81)
+E           Failed: DID NOT RAISE <class 'app.tasks.ValidationError'>
+
+app/tests/test_tasks.py:26: Failed
+=========================== short test summary info ============================
+FAILED app/tests/test_tasks.py::test_sr_1_3_title_at_most_80_characters - Fai...
+1 failed, 4 passed in 0.05s

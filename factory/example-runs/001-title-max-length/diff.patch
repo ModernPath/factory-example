@@ -1,0 +1,38 @@
+diff --git a/app/tasks.py b/app/tasks.py
+index da4646f..177b307 100644
+--- a/app/tasks.py
++++ b/app/tasks.py
+@@ -32,6 +32,9 @@ def validate_new_task(title: str, due: Optional[date]) -> str:
+     # SR-1.2: the due date, when given, is a date.
+     if due is not None and not isinstance(due, date):
+         raise ValidationError("Due date must be a date.")
++    # SR-1.3: a title is at most 80 characters, measured after stripping.
++    if len(cleaned) > 80:
++        raise ValidationError("Title must be at most 80 characters.")
+     return cleaned
+ 
+ 
+diff --git a/app/tests/test_tasks.py b/app/tests/test_tasks.py
+index eb53be1..344184d 100644
+--- a/app/tests/test_tasks.py
++++ b/app/tests/test_tasks.py
+@@ -20,6 +20,19 @@ def test_sr_1_2_due_date_must_be_a_date():
+         create_task("Call Bob", due="tomorrow")
+ 
+ 
++def test_sr_1_3_title_at_most_80_characters():
++    message = "Title must be at most 80 characters."
++    with pytest.raises(ValidationError) as too_long:
++        create_task("x" * 81)
++    assert str(too_long.value) == message
++    assert create_task("x" * 80).title == "x" * 80
++    # The length is measured after surrounding whitespace is stripped.
++    assert create_task("  " + "x" * 80 + "  ").title == "x" * 80
++    with pytest.raises(ValidationError) as padded_too_long:
++        create_task("  " + "x" * 81 + "  ")
++    assert str(padded_too_long.value) == message
++
++
+ def test_summary_counts_open_done_and_overdue():
+     tasks = [
+         Task("a", due=date(2026, 10, 1)),

@@ -1,0 +1,10 @@
+2026-10-08T05:56:07Z start run=001-title-max-length issue=factory/issues/001-title-max-length.md branch=factory/001-title-max-length backend=claude
+2026-10-08T05:56:18Z stage=spec exit=0 subtype=success model=claude-sonnet-5-5 turns=5 cost_usd=0.1142948 seconds=10
+2026-10-08T05:56:29Z stage=test exit=0 subtype=success model=claude-sonnet-5-5 turns=6 cost_usd=0.11196 seconds=11
+2026-10-08T05:56:30Z RED gate: test_sr_1_3_title_at_most_80_characters fails as expected
+2026-10-08T05:56:41Z stage=implement exit=0 subtype=success model=claude-sonnet-5-5 turns=6 cost_usd=0.1087862 seconds=10
+2026-10-08T05:56:41Z GREEN gate: suite passes
+2026-10-08T05:56:48Z stage=review exit=0 subtype=success model=claude-sonnet-5-5 turns=5 cost_usd=0.106857 seconds=7
+2026-10-08T05:56:49Z verdict gate: approve
+2026-10-08T05:56:49Z wrote factory/runs/001-title-max-length/pr.md (FACTORY_PR=gh opens a draft PR instead)
+2026-10-08T05:56:49Z DONE run=001-title-max-length total_cost_usd=0.4419

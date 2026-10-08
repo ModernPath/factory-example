@@ -1,0 +1,4 @@
+2026-10-08T05:57:13Z start run=003-reject-tab-and-newline-titles issue=factory/issues/003-reject-tab-and-newline-titles.md branch=factory/003-reject-tab-and-newline-titles backend=claude
+2026-10-08T05:57:24Z stage=spec exit=0 subtype=success model=claude-sonnet-5-5 turns=5 cost_usd=0.114979 seconds=11
+2026-10-08T05:57:35Z stage=test exit=0 subtype=success model=claude-sonnet-5-5 turns=6 cost_usd=0.11737860000000001 seconds=11
+2026-10-08T05:57:36Z STOP red-gate: the new test test_sr_1_4_title_of_only_tabs_and_line_breaks_is_rejected passed before implementation

@@ -1,0 +1,20 @@
+diff --git a/app/tests/test_tasks.py b/app/tests/test_tasks.py
+index eb53be1..20ae9d3 100644
+--- a/app/tests/test_tasks.py
++++ b/app/tests/test_tasks.py
+@@ -15,6 +15,15 @@ def test_sr_1_1_title_is_required():
+         create_task("   ")
+ 
+ 
++def test_sr_1_1_blank_title_rejected():
++    for blank in ["", "   ", "\t\n"]:
++        with pytest.raises(ValidationError) as excinfo:
++            create_task(blank)
++        assert str(excinfo.value) == "Title is required."
++
++    assert create_task("Buy milk") == Task(title="Buy milk")
++
++
+ def test_sr_1_2_due_date_must_be_a_date():
+     with pytest.raises(ValidationError, match="Due date"):
+         create_task("Call Bob", due="tomorrow")

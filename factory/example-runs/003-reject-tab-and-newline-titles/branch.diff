@@ -1,0 +1,17 @@
+diff --git a/app/tests/test_tasks.py b/app/tests/test_tasks.py
+index eb53be1..5bf124b 100644
+--- a/app/tests/test_tasks.py
++++ b/app/tests/test_tasks.py
+@@ -20,6 +20,12 @@ def test_sr_1_2_due_date_must_be_a_date():
+         create_task("Call Bob", due="tomorrow")
+ 
+ 
++def test_sr_1_4_title_of_only_tabs_and_line_breaks_is_rejected():
++    with pytest.raises(ValidationError, match="Title is required."):
++        create_task("\t\n\t")
++    assert create_task("\tCall Bob\n").title == "Call Bob"
++
++
+ def test_summary_counts_open_done_and_overdue():
+     tasks = [
+         Task("a", due=date(2026, 10, 1)),
