@@ -1,0 +1,13 @@
+{
+  "name": "due-today-loop",
+  "goal": "summary() in app/tasks.py also returns 'due_today': the number of open tasks due today. Add one test for it in app/tests/test_tasks.py. All tests pass.",
+  "max_iterations": 3,
+  "agent_max_turns": 16,
+  "permission_mode": "acceptEdits",
+  "allowed_tools": ["Read", "Glob", "Grep", "Edit", "Bash"],
+  "implement_instructions": "Change only app/tasks.py and app/tests/test_tasks.py. Keep the change minimal.",
+  "review_instructions": "Confirm whether the goal is met. Respond with exactly one of: FINAL_STATUS: APPROVED or FINAL_STATUS: CHANGES_REQUIRED.",
+  "checks": [
+    {"name": "tests", "command": "python3 -m pytest -q app/tests", "timeout_seconds": 120}
+  ]
+}
